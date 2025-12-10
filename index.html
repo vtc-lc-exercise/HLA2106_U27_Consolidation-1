@@ -436,7 +436,7 @@
     <div class="complete-email">
         <strong>Dear Section Heads</strong><br><br>
 
-        <span class="email-correct">As you may know</span>, there was a 15% drop in our profit last quarter. The Marketing Team has conducted a meeting to discuss the possible solutions to this problem, and I would like to <span class="email-correct">let you know</span> our preference.<br><br>
+        <span class="email-correct">As you may know</span>, there was a 15% drop in our Italian restaurant's profit last quarter. The Marketing Team has conducted a meeting to discuss the possible solutions to this problem, and I would like to <span class="email-correct">let you know</span> our preference.<br><br>
 
         <span class="email-correct">Our team has proposed</span> two possible promotional strategies: posting reels and videos on social media platforms and implementing loyalty and rewards programmes. <span class="email-correct">After discussion</span>, we would prefer posting reels and videos on social media platforms for several reasons. First, it <span class="email-correct">could help</span> us attract social media platform users and promote our services effectively. Also, it <span class="email-correct">would allow</span> us to interact with potential customers and enhance our hotel's image.<br><br>
 
@@ -500,7 +500,7 @@
         </p>
     </div>
 
-    <button class="btn-primary" onclick="restartExercise()">Practise Again 🔄</button>
+    <button class="btn-primary" onclick="restartExercise()">Practice Again 🔄</button>
 </div>
 
 <script>
@@ -893,10 +893,35 @@ function createConfetti() {
 }
 
 function restartExercise() {
+    // Reset variables
     currentQuestion = 0;
     userAnswer = null;
+
+    // Clear all blank elements and remove all classes
+    var allBlanks = document.querySelectorAll(".blank");
+    for (var i = 0; i < allBlanks.length; i++) {
+        allBlanks[i].textContent = "";
+        allBlanks[i].className = "blank";  // Reset to just "blank" class
+    }
+
+    // Clear feedback section
+    document.getElementById("feedbackSection").style.display = "none";
+    document.getElementById("feedbackSection").innerHTML = "";
+
+    // Reset progress bar
+    document.getElementById("progressBar").style.width = "0%";
+
+    // Hide all pages except landing page
     document.getElementById("summaryPage").style.display = "none";
+    document.getElementById("fullEmailPage").style.display = "none";
+    document.getElementById("exerciseContainer").style.display = "none";
     document.getElementById("landingPage").style.display = "block";
+
+    // Remove fade-out class if it exists
+    var scene = document.getElementById("scene");
+    if (scene) {
+        scene.classList.remove("fade-out");
+    }
 }
 </script>
 

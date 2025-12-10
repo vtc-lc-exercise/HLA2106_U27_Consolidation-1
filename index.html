@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HLA2106 - Email Writing Exercise</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        h2 {
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+
+        .description {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+        }
+
+        .description p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .description ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        .exercise-container {
+            display: none;
+        }
+
+        .exercise-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .exercise-header h2 {
+            color: white;
+            font-weight: 700;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 10px;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            height: 100%;
+            transition: width 0.5s ease;
+            border-radius: 5px;
+        }
+
+        .scene {
+            opacity: 1;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .scene.fade-out {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        .paragraph-title {
+            font-weight: bold;
+            font-size: 1.3em;
+            color: #667eea;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9ff;
+            border-radius: 8px;
+            border-left: 5px solid #667eea;
+        }
+
+        .content-area {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media (min-width: 768px) {
+            .content-area {
+                grid-template-columns: 60% 40%;
+            }
+        }
+
+        .paragraph-section {
+            background: #f9f9f9;
+            padding: 25px;
+            border-radius: 10px;
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+
+        .blank {
+            display: inline-block;
+            min-width: 150px;
+            padding: 8px 15px;
+            margin: 0 5px;
+            border: 3px dashed #667eea;
+            border-radius: 8px;
+            background: white;
+            min-height: 40px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .blank.filled {
+            border-style: solid;
+            background: #e3f2fd;
+        }
+
+        .blank.correct {
+            border-color: #4CAF50;
+            background: #e8f5e9;
+            animation: pulse 0.5s;
+        }
+
+        .blank.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+            animation: shake 0.5s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .blank.highlight {
+            border-color: #FFD700;
+            background: #fffde7;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .options-section {
+            background: #fff3e0;
+            padding: 25px;
+            border-radius: 10px;
+            border: 3px solid #ff9800;
+        }
+
+        .options-title {
+            color: #e65100;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .option {
+            background: white;
+            padding: 12px 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: move;
+            border: 2px solid #ff9800;
+            transition: all 0.3s;
+            font-size: 1em;
+            user-select: none;
+        }
+
+        .option:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+        }
+
+        .option.dragging {
+            opacity: 0.5;
+            transform: scale(0.95);
+        }
+
+        .feedback-section {
+            background: #f5f5f5;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+            display: none;
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback-item {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 5px solid;
+        }
+
+        .feedback-item.correct {
+            background: #e8f5e9;
+            border-color: #4CAF50;
+        }
+
+        .feedback-item.incorrect {
+            background: #ffebee;
+            border-color: #f44336;
+        }
+
+        .feedback-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            position: absolute;
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .summary-section {
+            display: none;
+            text-align: center;
+        }
+
+        .summary-section h2 {
+            color: #4CAF50;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .summary-content {
+            background: #f8f9ff;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .summary-content h3 {
+            color: #667eea;
+            margin: 20px 0 10px 0;
+        }
+
+        .summary-content ul {
+            margin-left: 20px;
+            line-height: 2;
+        }
+
+        .complete-email {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: left;
+            line-height: 1.8;
+            margin: 20px 0;
+            border: 2px solid #4CAF50;
+        }
+
+        .email-correct {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        @media (max-width: 767px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            h2 {
+                font-size: 1.2em;
+            }
+
+            .blank {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Landing Page -->
+<div class="container" id="landingPage">
+    <h1>✉️ HLA2106 Workplace Writing II</h1>
+    <h2>📝 Unit 27 - Consolidation 1</h2>
+
+    <div class="description">
+        <p><strong>Welcome to the Interactive Email Writing Exercise! 🎯</strong></p>
+        <p>In this exercise, you will practise writing a formal business email by dragging and dropping appropriate expressions into the correct blanks.</p>
+
+        <p><strong>What you will learn:</strong></p>
+        <ul>
+            <li>✅ Formal email opening expressions</li>
+            <li>✅ Presenting proposals and preferences</li>
+            <li>✅ Using modals correctly (would, could, may, can)</li>
+            <li>✅ Professional closing statements</li>
+        </ul>
+
+        <p><strong>How it works:</strong></p>
+        <ul>
+            <li>📖 Read each paragraph carefully</li>
+            <li>🎯 Drag the correct expression to fill each blank</li>
+            <li>✔️ Get immediate feedback on your choice</li>
+            <li>📚 Learn from detailed explanations</li>
+            <li>🎉 Progress through all five paragraphs</li>
+        </ul>
+
+        <p style="margin-top: 20px;"><strong>Ready to begin?</strong> Click the button below to start your email writing practice! 🚀</p>
+    </div>
+
+    <button class="btn-primary" onclick="startExercise()">Start Exercise 🎓</button>
+</div>
+
+<!-- Exercise Container -->
+<div class="container exercise-container" id="exerciseContainer">
+    <div class="exercise-header">
+        <h2>Email Writing Exercise</h2>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+        </div>
+        <p id="progressText">Question 1 of 11</p>
+    </div>
+
+    <div class="scene" id="scene">
+        <div class="paragraph-title" id="paragraphTitle"></div>
+
+        <div class="content-area">
+            <div class="paragraph-section" id="paragraphSection"></div>
+
+            <div class="options-section" id="optionsSection"></div>
+        </div>
+
+        <button class="btn-primary" id="checkBtn" onclick="checkAnswer()">Check Answer ✓</button>
+
+        <div class="feedback-section" id="feedbackSection"></div>
+    </div>
+</div>
+
+<!-- Complete Email Page -->
+<div class="container summary-section" id="fullEmailPage">
+    <h2>✉️ Complete Email: Final Version</h2>
+    <p style="font-size: 1.2em; margin-bottom: 20px;">Excellent work! Here is the complete professional email you have constructed:</p>
+
+    <div class="complete-email">
+        <strong>Dear Section Heads</strong><br><br>
+
+        <span class="email-correct">As you may know</span>, there was a 15% drop in our profit last quarter. The Marketing Team has conducted a meeting to discuss the possible solutions to this problem, and I would like to <span class="email-correct">let you know</span> our preference.<br><br>
+
+        <span class="email-correct">Our team has proposed</span> two possible promotional strategies: posting reels and videos on social media platforms and implementing loyalty and rewards programmes. <span class="email-correct">After discussion</span>, we would prefer posting reels and videos on social media platforms for several reasons. First, it <span class="email-correct">could help</span> us attract social media platform users and promote our services effectively. Also, it <span class="email-correct">would allow</span> us to interact with potential customers and enhance our hotel's image.<br><br>
+
+        <span class="email-correct">On the other hand</span>, implementing loyalty and rewards programmes would not be preferred. Although it <span class="email-correct">may be helpful</span> in retaining existing customers, the implementation costs can be high, which is not preferred by our director.<br><br>
+
+        <span class="email-correct">Could you please</span> conduct a meeting with your own sections to collect their ideas? Please also <span class="email-correct">send me</span> their feedback by next Friday.<br><br>
+
+        <span class="email-correct">If you have any queries</span>, please feel free to contact me.<br><br>
+
+        Regards<br>
+        Cindy Lee
+    </div>
+
+    <button class="btn-primary" onclick="goToSummary()">Continue to Summary ➡️</button>
+</div>
+
+<!-- Summary Page -->
+<div class="container summary-section" id="summaryPage">
+    <h2>🎉 Congratulations! 🎉</h2>
+    <p style="font-size: 1.3em; margin: 20px 0;">You have completed the email writing exercise!</p>
+
+    <div class="summary-content">
+        <h3>📌 Key Reminders for Business Email Writing:</h3>
+
+        <h3>1. Opening Expressions 📬</h3>
+        <ul>
+            <li>Use "As you may know" to introduce information the reader might be aware of.</li>
+            <li>Remember: modal + base verb (may know, not may knowing).</li>
+        </ul>
+
+        <h3>2. Modal Verbs ⚡</h3>
+        <ul>
+            <li>After modals, always use the base form: "could help" (not "could helps").</li>
+            <li>For modals + adjectives, use "be": "may be helpful" (not "may helpful").</li>
+            <li>No "to" after modals: "would allow" (not "would to allow").</li>
+        </ul>
+
+        <h3>3. Formal Expressions 💼</h3>
+        <ul>
+            <li>"Our team has proposed" - use "propose + object" (no preposition).</li>
+            <li>"After discussion" - concise and formal.</li>
+            <li>"On the other hand" - use "on" not "in", and include "the".</li>
+        </ul>
+
+        <h3>4. Polite Requests 🙏</h3>
+        <ul>
+            <li>"Could you please" + base verb for formal requests.</li>
+            <li>"If you have any queries" - standard conditional closing.</li>
+            <li>Remember subject-verb agreement: "you have" (not "you has").</li>
+        </ul>
+
+        <h3>5. Verb Patterns 📝</h3>
+        <ul>
+            <li>"let you know" - let + person + base verb.</li>
+            <li>"send me" - send + person + object (no "to").</li>
+            <li>"inform you of" - inform needs "of" before the object.</li>
+        </ul>
+
+        <p style="margin-top: 30px; padding: 20px; background: #e8f5e9; border-radius: 10px; border-left: 5px solid #4CAF50;">
+            <strong>💡 Remember:</strong> Professional email writing requires attention to formal expressions, correct grammar, and appropriate tone. Keep practising these patterns in your own workplace communications!
+        </p>
+    </div>
+
+    <button class="btn-primary" onclick="restartExercise()">Practise Again 🔄</button>
+</div>
+
+<script>
+var exerciseData = [
+    {
+        title: "Paragraph 1: Opening",
+        paragraph: "Dear Section Heads<br><br><span class='blank' id='blank0'></span>, there was a 15% drop in our profit last quarter.",
+        blankId: "blank0",
+        blankNumber: 1,
+        correctAnswer: "As you may know",
+        options: [
+            { text: "As you may know", correct: true },
+            { text: "As you may aware", correct: false },
+            { text: "As you may knowing", correct: false }
+        ],
+        feedback: {
+            correct: "Excellent! 'As you may know' is a formal way to introduce information the reader might already be aware of. It is commonly used in business emails.",
+            incorrect: {
+                "As you may aware": "Incorrect. After a modal verb like 'may', you need the base form of 'be': 'may be aware'.",
+                "As you may knowing": "Incorrect. After a modal verb, use the base form of the verb, not the -ing form: 'may know'."
+            }
+        }
+    },
+    {
+        title: "Paragraph 1: Opening",
+        paragraph: "Dear Section Heads<br><br>As you may know, there was a 15% drop in our profit last quarter. The Marketing Team has conducted a meeting to discuss the possible solutions to this problem, and I would like to <span class='blank' id='blank1'></span> our preference.",
+        blankId: "blank1",
+        blankNumber: 2,
+        correctAnswer: "let you know",
+        options: [
+            { text: "let you know", correct: true },
+            { text: "inform", correct: false },
+            { text: "tell", correct: false }
+        ],
+        feedback: {
+            correct: "Perfect! 'Let you know' is the complete expression. The verb pattern is 'let + person + base verb'.",
+            incorrect: {
+                "inform": "Incorrect. 'Inform' needs the preposition 'of': 'inform you of our preference'.",
+                "tell": "Incorrect. 'Tell' needs the preposition 'about': 'tell you about our preference'."
+            }
+        }
+    },
+    {
+        title: "Paragraph 2: Presenting the Proposal",
+        paragraph: "<span class='blank' id='blank2'></span> two possible promotional strategies: posting reels and videos on social media platforms and implementing loyalty and rewards programmes.",
+        blankId: "blank2",
+        blankNumber: 3,
+        correctAnswer: "Our team has proposed",
+        options: [
+            { text: "Our team has proposed", correct: true },
+            { text: "Our team has suggested about", correct: false },
+            { text: "We have propose", correct: false }
+        ],
+        feedback: {
+            correct: "Well done! 'Our team has proposed' is formal and shows the action is complete. Use 'propose + object' (no preposition needed).",
+            incorrect: {
+                "Our team has suggested about": "Incorrect. 'Suggest' does not need 'about' when followed directly by an object.",
+                "We have propose": "Incorrect. With 'have', you need the past participle: 'have proposed'."
+            }
+        }
+    },
+    {
+        title: "Paragraph 2: Presenting the Proposal",
+        paragraph: "Our team has proposed two possible promotional strategies: posting reels and videos on social media platforms and implementing loyalty and rewards programmes. <span class='blank' id='blank3'></span>, we would prefer posting reels and videos on social media platforms for several reasons.",
+        blankId: "blank3",
+        blankNumber: 4,
+        correctAnswer: "After discussion",
+        options: [
+            { text: "After discussion", correct: true },
+            { text: "After we discussed", correct: false },
+            { text: "Discussing", correct: false }
+        ],
+        feedback: {
+            correct: "Excellent! 'After discussion' is a concise, formal way to show the decision was made following team discussion.",
+            incorrect: {
+                "After we discussed": "Incorrect. This creates an incomplete clause. You would need to complete it: 'After we discussed the options, we...'.",
+                "Discussing": "Incorrect. Starting with 'Discussing' creates a dangling modifier - it is unclear who is discussing."
+            }
+        }
+    },
+    {
+        title: "Paragraph 2: Presenting the Proposal",
+        paragraph: "Our team has proposed two possible promotional strategies: posting reels and videos on social media platforms and implementing loyalty and rewards programmes. After discussion, we would prefer posting reels and videos on social media platforms for several reasons. First, it <span class='blank' id='blank4'></span> us attract social media platform users and promote our services effectively.",
+        blankId: "blank4",
+        blankNumber: 5,
+        correctAnswer: "could help",
+        options: [
+            { text: "could help", correct: true },
+            { text: "can helps", correct: false },
+            { text: "could to help", correct: false }
+        ],
+        feedback: {
+            correct: "Perfect! 'Could help' shows possibility. The pattern is 'modal + base verb + object'.",
+            incorrect: {
+                "can helps": "Incorrect. After a modal verb like 'can', use the base form (help), not the third person form (helps).",
+                "could to help": "Incorrect. Modal verbs are followed directly by the base verb, not by 'to'."
+            }
+        }
+    },
+    {
+        title: "Paragraph 2: Presenting the Proposal",
+        paragraph: "Our team has proposed two possible promotional strategies: posting reels and videos on social media platforms and implementing loyalty and rewards programmes. After discussion, we would prefer posting reels and videos on social media platforms for several reasons. First, it could help us attract social media platform users and promote our services effectively. Also, it <span class='blank' id='blank5'></span> us to interact with potential customers and enhance our hotel's image.",
+        blankId: "blank5",
+        blankNumber: 6,
+        correctAnswer: "would allow",
+        options: [
+            { text: "would allow", correct: true },
+            { text: "would allows", correct: false },
+            { text: "allows to", correct: false }
+        ],
+        feedback: {
+            correct: "Excellent! 'Would allow' shows a predicted benefit. The pattern is 'modal + base verb + object + to + verb'.",
+            incorrect: {
+                "would allows": "Incorrect. After a modal verb, always use the base form (allow), never add -s.",
+                "allows to": "Incorrect. This creates a grammar error. You need a modal: 'would allow us to'."
+            }
+        }
+    },
+    {
+        title: "Paragraph 3: Discussing the Alternative",
+        paragraph: "<span class='blank' id='blank6'></span>, implementing loyalty and rewards programmes would not be preferred.",
+        blankId: "blank6",
+        blankNumber: 7,
+        correctAnswer: "On the other hand",
+        options: [
+            { text: "On the other hand", correct: true },
+            { text: "In the other hand", correct: false },
+            { text: "On other hand", correct: false }
+        ],
+        feedback: {
+            correct: "Well done! 'On the other hand' is the correct idiom for introducing a contrasting point in formal writing.",
+            incorrect: {
+                "In the other hand": "Incorrect. The correct preposition for this expression is 'on', not 'in'.",
+                "On other hand": "Incorrect. You need the article 'the': 'on the other hand'."
+            }
+        }
+    },
+    {
+        title: "Paragraph 3: Discussing the Alternative",
+        paragraph: "On the other hand, implementing loyalty and rewards programmes would not be preferred. Although it <span class='blank' id='blank7'></span> in retaining existing customers, the implementation costs can be high, which is not preferred by our director.",
+        blankId: "blank7",
+        blankNumber: 8,
+        correctAnswer: "may be helpful",
+        options: [
+            { text: "may be helpful", correct: true },
+            { text: "may helpful", correct: false },
+            { text: "may helps", correct: false }
+        ],
+        feedback: {
+            correct: "Perfect! 'May be helpful' shows possibility. The pattern is 'modal + be + adjective'.",
+            incorrect: {
+                "may helpful": "Incorrect. You need 'be' between the modal and the adjective: 'may be helpful'.",
+                "may helps": "Incorrect. After a modal, use the base form 'help', and you need 'be' before an adjective."
+            }
+        }
+    },
+    {
+        title: "Paragraph 4: Making a Request",
+        paragraph: "<span class='blank' id='blank8'></span> conduct a meeting with your own sections to collect their ideas?",
+        blankId: "blank8",
+        blankNumber: 9,
+        correctAnswer: "Could you please",
+        options: [
+            { text: "Could you please", correct: true },
+            { text: "Could you to please", correct: false },
+            { text: "You could please", correct: false }
+        ],
+        feedback: {
+            correct: "Excellent! 'Could you please' is a polite, formal way to make a request in business emails.",
+            incorrect: {
+                "Could you to please": "Incorrect. After a modal + subject, use the base verb directly: 'Could you please conduct...'.",
+                "You could please": "Incorrect. For questions, the modal comes before the subject: 'Could you please...'."
+            }
+        }
+    },
+    {
+        title: "Paragraph 4: Making a Request",
+        paragraph: "Could you please conduct a meeting with your own sections to collect their ideas? Please also <span class='blank' id='blank9'></span> their feedback by next Friday.",
+        blankId: "blank9",
+        blankNumber: 10,
+        correctAnswer: "send me",
+        options: [
+            { text: "send me", correct: true },
+            { text: "send to me", correct: false },
+            { text: "sending me", correct: false }
+        ],
+        feedback: {
+            correct: "Perfect! 'Send me' follows the pattern: 'send + person + thing' (send me their feedback).",
+            incorrect: {
+                "send to me": "Incorrect. With 'send', the person comes directly after the verb without 'to': 'send me'.",
+                "sending me": "Incorrect. After 'Please', use the base form of the verb: 'send'."
+            }
+        }
+    },
+    {
+        title: "Paragraph 5: Closing",
+        paragraph: "<span class='blank' id='blank10'></span>, please feel free to contact me.<br><br>Regards<br>Cindy Lee",
+        blankId: "blank10",
+        blankNumber: 11,
+        correctAnswer: "If you have any queries",
+        options: [
+            { text: "If you have any queries", correct: true },
+            { text: "If you has any queries", correct: false },
+            { text: "Do you have any queries", correct: false }
+        ],
+        feedback: {
+            correct: "Excellent! 'If you have any queries' is a formal, polite conditional expression commonly used in business email closings.",
+            incorrect: {
+                "If you has any queries": "Incorrect. With 'you', always use 'have', not 'has'.",
+                "Do you have any queries": "Incorrect. This is a direct question, not a conditional statement. Use 'If' to introduce the condition."
+            }
+        }
+    }
+];
+
+var currentQuestion = 0;
+var userAnswer = null;
+
+// Shuffle function using Fisher-Yates algorithm
+function shuffleArray(array) {
+    var newArray = array.slice();
+    for (var i = newArray.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = newArray[i];
+        newArray[i] = newArray[j];
+        newArray[j] = temp;
+    }
+    return newArray;
+}
+
+function startExercise() {
+    document.getElementById("landingPage").style.display = "none";
+    document.getElementById("exerciseContainer").style.display = "block";
+    loadQuestion();
+}
+
+function loadQuestion() {
+    var question = exerciseData[currentQuestion];
+
+    var progress = ((currentQuestion + 1) / exerciseData.length) * 100;
+    document.getElementById("progressBar").style.width = progress + "%";
+    document.getElementById("progressText").textContent = "Question " + (currentQuestion + 1) + " of " + exerciseData.length;
+
+    document.getElementById("paragraphTitle").textContent = question.title;
+    document.getElementById("paragraphSection").innerHTML = question.paragraph;
+
+    var blank = document.getElementById(question.blankId);
+    if (blank) {
+        blank.classList.add("highlight");
+    }
+
+    // Shuffle the options before displaying
+    var shuffledOptions = shuffleArray(question.options);
+
+    var optionsHTML = '<div class="options-title">Options for Blank ' + question.blankNumber + ':</div>';
+    for (var i = 0; i < shuffledOptions.length; i++) {
+        optionsHTML += '<div class="option" draggable="true" data-text="' + shuffledOptions[i].text + '">' + shuffledOptions[i].text + '</div>';
+    }
+    document.getElementById("optionsSection").innerHTML = optionsHTML;
+
+    document.getElementById("feedbackSection").style.display = "none";
+    var btn = document.getElementById("checkBtn");
+    btn.innerHTML = "Check Answer ✓";
+    btn.onclick = checkAnswer;
+
+    setupDragAndDrop();
+    userAnswer = null;
+}
+
+function setupDragAndDrop() {
+    var options = document.querySelectorAll(".option");
+    var blank = document.querySelector(".blank.highlight");
+
+    for (var i = 0; i < options.length; i++) {
+        options[i].addEventListener("dragstart", function(e) {
+            e.dataTransfer.setData("text/plain", this.getAttribute("data-text"));
+            this.classList.add("dragging");
+        });
+
+        options[i].addEventListener("dragend", function() {
+            this.classList.remove("dragging");
+        });
+
+        options[i].addEventListener("click", function() {
+            if (blank) {
+                blank.textContent = this.getAttribute("data-text");
+                blank.classList.add("filled");
+                userAnswer = this.getAttribute("data-text");
+            }
+        });
+    }
+
+    if (blank) {
+        blank.addEventListener("dragover", function(e) {
+            e.preventDefault();
+        });
+
+        blank.addEventListener("drop", function(e) {
+            e.preventDefault();
+            var text = e.dataTransfer.getData("text/plain");
+            this.textContent = text;
+            this.classList.add("filled");
+            userAnswer = text;
+        });
+    }
+}
+
+function checkAnswer() {
+    if (!userAnswer) {
+        alert("Please drag an option to the blank first!");
+        return;
+    }
+
+    var question = exerciseData[currentQuestion];
+    var blank = document.getElementById(question.blankId);
+    var isCorrect = userAnswer === question.correctAnswer;
+
+    var feedbackSection = document.getElementById("feedbackSection");
+    var html = "";
+
+    if (isCorrect) {
+        blank.classList.remove("incorrect");
+        blank.classList.add("correct");
+        html = '<div class="feedback-item correct"><div class="feedback-title">✅ Correct!</div><p>' + question.feedback.correct + '</p></div>';
+        createConfetti();
+        var btn = document.getElementById("checkBtn");
+        btn.innerHTML = "Continue ➡️";
+        btn.onclick = nextQuestion;
+    } else {
+        blank.classList.remove("correct");
+        blank.classList.add("incorrect");
+        html = '<div class="feedback-item incorrect"><div class="feedback-title">❌ Not quite right</div><p>' + question.feedback.incorrect[userAnswer] + '</p></div>';
+        html += '<div class="feedback-item correct"><div class="feedback-title">💡 The correct answer:</div><p>' + question.feedback.correct + '</p></div>';
+        var btn = document.getElementById("checkBtn");
+        btn.innerHTML = "Continue ➡️";
+        btn.onclick = nextQuestion;
+    }
+
+    feedbackSection.innerHTML = html;
+    feedbackSection.style.display = "block";
+}
+
+function nextQuestion() {
+    var scene = document.getElementById("scene");
+    scene.classList.add("fade-out");
+
+    setTimeout(function() {
+        currentQuestion++;
+        if (currentQuestion < exerciseData.length) {
+            loadQuestion();
+            scene.classList.remove("fade-out");
+        } else {
+            showCompleteEmail();
+        }
+    }, 400);
+}
+
+function showCompleteEmail() {
+    document.getElementById("exerciseContainer").style.display = "none";
+    document.getElementById("fullEmailPage").style.display = "block";
+    createConfetti();
+}
+
+function goToSummary() {
+    document.getElementById("fullEmailPage").style.display = "none";
+    document.getElementById("summaryPage").style.display = "block";
+    createConfetti();
+    setTimeout(function() { createConfetti(); }, 500);
+    setTimeout(function() { createConfetti(); }, 1000);
+}
+
+function createConfetti() {
+    var colours = ["#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff", "#00ffff"];
+    var container = document.body;
+
+    for (var i = 0; i < 50; i++) {
+        var c = document.createElement("div");
+        c.className = "confetti";
+        c.style.left = Math.random() * 100 + "%";
+        c.style.background = colours[Math.floor(Math.random() * colours.length)];
+        c.style.animationDelay = Math.random() * 0.5 + "s";
+        c.style.animationDuration = (Math.random() * 2 + 2) + "s";
+        container.appendChild(c);
+        (function(confettiElement) {
+            setTimeout(function() {
+                confettiElement.remove();
+            }, 3000);
+        })(c);
+    }
+}
+
+function restartExercise() {
+    currentQuestion = 0;
+    userAnswer = null;
+    document.getElementById("summaryPage").style.display = "none";
+    document.getElementById("landingPage").style.display = "block";
+}
+</script>
+
+</body>
+</html>
